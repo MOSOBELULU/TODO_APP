@@ -1,12 +1,25 @@
 import  { useState } from 'react';
 
+
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [task, setTask] = useState('');
+  const [tasks, setTasks] = useState([]);
+
+  const handleAddTask = () => {
+    if (task.trim() !== '') {
+        setTasks([...tasks, task]);
+        setTask('');
+    }
+
+  }
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">TODO</h1>
-      <textarea className="w-full p-2 border rounded mb-4" placeholder="Enter your task"></textarea>
+      <textarea className="w-full p-2 border rounded mb-4" placeholder="Enter your task"
+      value={task}
+      onChange={(e) => setTask(e.target.value)}></textarea>
       <div className="relative inline-block text-left mb-4">
         <div>
           <button
@@ -28,7 +41,16 @@ export default function TodoPage() {
           </div>
         )}
       </div>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Task</button>
+      <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      onClick={handleAddTask}>Add Task</button>
+      <ul className="mt-4">
+        {tasks.map((task, index) => (
+          <li key={index} className="border-b py-2">
+            {task}
+          </li>
+        ))}
+      </ul>
+    
     </>
   );
 }
