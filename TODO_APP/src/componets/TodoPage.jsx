@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '../../contexts/authContext'
+import { useAuth } from '../contexts/authContext'
 
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
