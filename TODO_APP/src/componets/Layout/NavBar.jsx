@@ -1,3 +1,4 @@
+import { doSignOut } from "../../firebase/auth";
 export default function NavBar() {
     return (
         <nav className="bg-yellow-500 p-4">

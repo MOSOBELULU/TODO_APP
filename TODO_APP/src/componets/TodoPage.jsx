@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../../contexts/authContext'
 
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -41,9 +42,15 @@ export default function TodoPage() {
     setTasks(updatedTasks);
   };
 
+  const { currentUser } = useAuth()
+
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">TODO</h1>
+      <div>
+        hello { currentUser.displayName? currentUser.displayName : currentUser.email}, you are now logged in
+      </div>
+
       <textarea
         className="w-full p-2 border rounded mb-4"
         placeholder="Enter your task"
