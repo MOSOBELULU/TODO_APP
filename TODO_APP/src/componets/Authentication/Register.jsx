@@ -1,5 +1,5 @@
 import  { useState } from "react";
-import { useNavigate, Link  } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { doCreateUserWithEmailAndPassword } from "../../firebase/auth";
 
 export default function Register() {
