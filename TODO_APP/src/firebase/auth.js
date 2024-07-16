@@ -1,5 +1,6 @@
-import { auth } from "./firebase";
-import {createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword} from './firebase'
+
+/*eslint-disable*/import { auth } from "./firebase";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 
 
 export const doCreateUserWithEmailAndPassword = async (email, password) => {
