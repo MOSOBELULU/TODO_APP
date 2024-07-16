@@ -1,36 +1,42 @@
-import { useState } from "react"
-import { Navigate, Link} from 'react-router-dom'
-import { doSignInWithEmailAndPassword, doSignInWithGoogle } from "../../firebase/auth"
+/*eslint-disable*/
+import { useState } from 'react';
+import { UseAuth } from "../../contexts/authContext/index";
+import { useNavigate } from 'react-router-dom';
 
-export default function Login(){
+function Login({ setIsLoggedIn }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = UseAuth();
+  const navigate = useNavigate();
 
-    const {userLoggedIn} = useAuth()
-
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [isSignIn, setIsSignIn] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
-
-    const onSubmit = async (e) => {
-        e.preventDefault()
-        if (!userLoggedIn) {
-            setIsSignIn(true)
-            await doSignInWithEmailAndPassword(email, password)
-        }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      setIsLoggedIn(true);
+      navigate('/todo');
+    } catch (error) {
+      console.error("Failed to log in", error);
     }
+  };
 
-    const onGoogleSignIn = (e) => {
-        e.preventDefault()
-        if(!isSignIn) {
-            setIsSignIn(true)
-            doSignInWithGoogle().catch(err => {
-                setIsSignIn(false)
-            })
-        }
-    }
-
-
-    return    
-    
-
+  return (
+    <form onSubmit={handleLogin}>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Email"
+      />
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
+      />
+      <button type="submit">Login</button>
+    </form>
+  );
 }
+
+export default Login;

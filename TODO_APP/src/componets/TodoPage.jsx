@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import {  UseAuth } from "../contexts/authContext/index" 
+import { UseAuth } from "../contexts/authContext/index";
 
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [task, setTask] = useState('');
   const [tasks, setTasks] = useState([]);
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
- 
-
-
 
   const handleAddTask = () => {
     if (task.trim() !== '') {
@@ -42,13 +39,21 @@ export default function TodoPage() {
     setTasks(updatedTasks);
   };
 
-  const { currentUser } = UseAuth()
+  const { currentUser } = UseAuth();
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-4">TODO</h1>
       <div>
-        hello { currentUser.displayName? currentUser.displayName : currentUser.email}, you are now logged in
+        {currentUser ? (
+          <>
+            Hello {currentUser.displayName ? currentUser.displayName : currentUser.email}, you are now logged in.
+          </>
+        ) : (
+          <>
+            You are not logged in.
+          </>
+        )}
       </div>
 
       <textarea
