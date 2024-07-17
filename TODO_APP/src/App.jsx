@@ -4,6 +4,7 @@ import Login from './componets/Authentication/Login';
 import Register from './componets/Authentication/Register';
 import NavBar from './componets/Layout/NavBar';
 import TodoPage from './componets/TodoPage';
+import { AuthProvider } from "../src/contexts/authContext/index";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,20 +15,20 @@ function App() {
   };
 
   return (
-    <>
-    <Router>
-      <Routes>
-        {/* Redirect to Login page if not logged in */}
-        {!isLoggedIn && <Route path="/" element={<Navigate to="/login" />} />}
-        {/* Login and Register routes */}
-        <Route path="/login" element={<Login onLogin={handleLoginOrRegister} />} />
-        <Route path="/register" element={<Register onRegister={handleLoginOrRegister} />} />
-        {/* TodoPage route */}
-        {isLoggedIn && <Route path="/" element={<TodoPage />} />}
-      </Routes>
-      <NavBar />
-    </Router>
-    </>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Redirect to Login page if not logged in */}
+          {!isLoggedIn && <Route path="/" element={<Navigate to="/login" />} />}
+          {/* Login and Register routes */}
+          <Route path="/login" element={<Login onLogin={handleLoginOrRegister} />} />
+          <Route path="/register" element={<Register onRegister={handleLoginOrRegister} />} />
+          {/* TodoPage route */}
+          {isLoggedIn && <Route path="/" element={<TodoPage />} />}
+        </Routes>
+        <NavBar />
+      </Router>
+    </AuthProvider>
   );
 }
 
