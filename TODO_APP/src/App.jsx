@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './componets/Authentication/Login';
 import Register from './componets/Authentication/Register';
 import NavBar from './componets/Layout/NavBar';
@@ -15,6 +15,7 @@ function App() {
 
   return (
     <>
+    <Router>
       <Routes>
         {/* Redirect to Login page if not logged in */}
         {!isLoggedIn && <Route path="/" element={<Navigate to="/login" />} />}
@@ -25,6 +26,7 @@ function App() {
         {isLoggedIn && <Route path="/" element={<TodoPage />} />}
       </Routes>
       <NavBar />
+    </Router>
     </>
   );
 }
