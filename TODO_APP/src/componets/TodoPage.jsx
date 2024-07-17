@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { UseAuth } from "../contexts/authContext/index";
+import { useAuth } from "../contexts/authContext/index";
 
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -39,7 +39,7 @@ export default function TodoPage() {
     setTasks(updatedTasks);
   };
 
-  const { currentUser } = UseAuth();
+  const { currentUser } = useAuth();
 
   return (
     <>

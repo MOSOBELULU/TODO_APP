@@ -1,12 +1,11 @@
-/*eslint-disable*/
 import { useState } from 'react';
-import { UseAuth } from "../../contexts/authContext/index";
+import { useAuth } from "../../contexts/authContext/index";
 import { useNavigate } from 'react-router-dom';
 
 function Login({ setIsLoggedIn }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = UseAuth();
+  const { login } = useAuth(); // Corrected import statement
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
