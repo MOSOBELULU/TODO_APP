@@ -1,23 +1,29 @@
-import { useState } from "react";
+import  { useState } from 'react';
 
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [notification, setNotification] = useState("");
 
   const handleAddTask = () => {
-    if (task.trim() !== "") {
+    if (task.trim() !== "" && selectedCategory) {
       if (editingTaskIndex !== null) {
         const updatedTasks = tasks.map((t, index) =>
-          index === editingTaskIndex ? { ...t, text: task } : t
+          index === editingTaskIndex ? { ...t, text: task, category: selectedCategory } : t
         );
         setTasks(updatedTasks);
         setEditingTaskIndex(null);
       } else {
-        setTasks([...tasks, { text: task, completed: false }]);
+        setTasks([...tasks, { text: task, category: selectedCategory, completed: false }]);
       }
       setTask("");
+      setSelectedCategory("");
+      setNotification("");
+    } else {
+      setNotification("Please select a category");
     }
   };
 
@@ -28,6 +34,7 @@ export default function TodoPage() {
 
   const handleEditTask = (index) => {
     setTask(tasks[index].text);
+    setSelectedCategory(tasks[index].category);
     setEditingTaskIndex(index);
   };
 
@@ -36,6 +43,12 @@ export default function TodoPage() {
       i === index ? { ...t, completed: !t.completed } : t
     );
     setTasks(updatedTasks);
+  };
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setIsDropdownOpen(false);
+    setNotification("");
   };
 
   return (
@@ -47,7 +60,7 @@ export default function TodoPage() {
           value={task}
           onChange={(e) => setTask(e.target.value)}
         ></textarea>
-        <div className="relative inline-block text-left mb-4">
+        <div className="relative inline-block text-left mb-4 w-full">
           <div>
             <button
               className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -56,12 +69,12 @@ export default function TodoPage() {
               aria-haspopup="true"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              Select option
+              {selectedCategory || "Select option"}
             </button>
           </div>
           {isDropdownOpen && (
             <div
-              className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dropdownMenu"
+              className="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none dropdownMenu"
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="menu-button"
@@ -72,7 +85,7 @@ export default function TodoPage() {
                   className="dropdownItem text-gray-700 block px-4 py-2 text-sm cursor-pointer hover:bg-blue-100"
                   role="menuitem"
                   tabIndex="-1"
-                  onClick={() => setIsDropdownOpen(false)}
+                  onClick={() => handleCategorySelect("Work")}
                 >
                   Work
                 </div>
@@ -80,7 +93,7 @@ export default function TodoPage() {
                   className="dropdownItem text-gray-700 block px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
                   role="menuitem"
                   tabIndex="-1"
-                  onClick={() => setIsDropdownOpen(false)}
+                  onClick={() => handleCategorySelect("Personal")}
                 >
                   Personal
                 </div>
@@ -88,6 +101,9 @@ export default function TodoPage() {
             </div>
           )}
         </div>
+        {notification && (
+          <div className="text-red-500 mb-4">{notification}</div>
+        )}
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
           onClick={handleAddTask}
@@ -105,11 +121,11 @@ export default function TodoPage() {
                   task.completed ? "line-through text-gray-500" : ""
                 }`}
               >
-                {task.text}
+                {task.text} - {task.category}
               </span>
               <div className="flex space-x-2">
                 <button
-                  className="bg-pink-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                  className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                   onClick={() => handleCompleteTask(index)}
                 >
                   {task.completed ? "Undo" : "Complete"}
