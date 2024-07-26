@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import { useAuth } from "../contexts/authContext/index";
+import { useState } from "react";
 
 export default function TodoPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState("");
   const [tasks, setTasks] = useState([]);
   const [editingTaskIndex, setEditingTaskIndex] = useState(null);
 
   const handleAddTask = () => {
-    if (task.trim() !== '') {
+    if (task.trim() !== "") {
       if (editingTaskIndex !== null) {
         const updatedTasks = tasks.map((t, index) =>
           index === editingTaskIndex ? { ...t, text: task } : t
@@ -18,7 +17,7 @@ export default function TodoPage() {
       } else {
         setTasks([...tasks, { text: task, completed: false }]);
       }
-      setTask('');
+      setTask("");
     }
   };
 
@@ -39,23 +38,8 @@ export default function TodoPage() {
     setTasks(updatedTasks);
   };
 
-  const { currentUser } = useAuth();
-
   return (
     <>
-      <h1 className="text-3xl font-bold mb-4">TODO</h1>
-      <div>
-        {currentUser ? (
-          <>
-            Hello {currentUser.displayName ? currentUser.displayName : currentUser.email}, you are now logged in.
-          </>
-        ) : (
-          <>
-            You are not logged in.
-          </>
-        )}
-      </div>
-
       <textarea
         className="w-full p-2 border rounded mb-4"
         placeholder="Enter your task"
@@ -107,13 +91,18 @@ export default function TodoPage() {
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         onClick={handleAddTask}
       >
-        {editingTaskIndex !== null ? 'Update Task' : 'Add Task'}
+        {editingTaskIndex !== null ? "Update Task" : "Add Task"}
       </button>
       <ul className="mt-4">
         {tasks.map((task, index) => (
-          <li key={index} className="border-b py-2 flex justify-between items-center">
+          <li
+            key={index}
+            className="border-b py-2 flex justify-between items-center"
+          >
             <span
-              className={`flex-grow ${task.completed ? 'line-through text-gray-500' : ''}`}
+              className={`flex-grow ${
+                task.completed ? "line-through text-gray-500" : ""
+              }`}
             >
               {task.text}
             </span>
@@ -122,7 +111,7 @@ export default function TodoPage() {
                 className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
                 onClick={() => handleCompleteTask(index)}
               >
-                {task.completed ? 'Undo' : 'Complete'}
+                {task.completed ? "Undo" : "Complete"}
               </button>
               <button
                 className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
