@@ -39,7 +39,7 @@ export default function TodoPage() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center h-screen bg-[#6a0dad]">
       <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
         <textarea
           className="w-full p-2 border rounded mb-4"
@@ -109,7 +109,7 @@ export default function TodoPage() {
               </span>
               <div className="flex space-x-2">
                 <button
-                  className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                  className="bg-pink-500 text-white px-2 py-1 rounded hover:bg-green-600"
                   onClick={() => handleCompleteTask(index)}
                 >
                   {task.completed ? "Undo" : "Complete"}
